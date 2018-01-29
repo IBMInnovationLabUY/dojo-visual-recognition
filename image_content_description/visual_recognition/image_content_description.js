@@ -9,13 +9,14 @@ var faces = null;
 var objects = null;
 var http = require('http'); 
 var waterfall = require('async-waterfall');
+var series = require('async-series')
 var params = {
-		 api_key: '507d8824e898d272961f7b5f7a63ff4de056868e',
+		 api_key: 'b7010ad3c9006babc5b43585db581a82df507795',
 		 url : "https://www.whitehouse.gov/sites/whitehouse.gov/files/images/first-family/44_barack_obama%5B1%5D.jpg"
 };
 
 var visual_recognition = new watson.VisualRecognitionV3({
-	 api_key:  '507d8824e898d272961f7b5f7a63ff4de056868e', 
+	 api_key:  params.api_key, 
 	 version_date: '2016-05-20'
 	});
 
@@ -26,12 +27,12 @@ waterfall([
 	if (err)
 		console.log('Error: ',err)
 	else
-		console.log(res)
+		console.log(String(res))
 });
  	
 
 function generateJsonDescription(params,cb){
-	visual_recognition.classify(params, (err, response) => {
+		visual_recognition.classify(params, (err, response) => {
 		 if (err) {
 			 console.log('error:', err);
 			 if (typeof callback !== 'undefined' && typeof callback=="function") 
@@ -39,31 +40,31 @@ function generateJsonDescription(params,cb){
 			 }
 		 else {
 			 classification = JSON.stringify(response, null, 2);
+			 classification = JSON.parse(classification)
 			 if (typeof callback !== 'undefined' && typeof callback=="function") 
 				 return callback(response);
 		 }
 		});
-
-	visual_recognition. detectFaces (params, (err, response) => {
-		if (err) {
-			 console.log('error:', err);
-			 if (typeof callback !== 'undefined' && typeof callback=="function") 
-				 return callback(err);
-		}else {
-			faces = JSON.stringify(response, null, 2);
-			if (typeof callback !== 'undefined' && typeof callback=="function") 
-				return callback(response);
-		}
-	});
-	
-	cb(null,faces, classification)
+		visual_recognition. detectFaces (params, (err, response) => {
+			if (err) {
+				 console.log('error:', err);
+				 if (typeof callback !== 'undefined' && typeof callback=="function") 
+					 return callback(err);
+			}else {
+				faces = JSON.stringify(response, null, 2);
+				faces = JSON.parse(faces);
+				cb(null,classification,faces)
+				if (typeof callback !== 'undefined' && typeof callback=="function") 
+					return callback(response);
+			}
+		})
 }
 
 
 function facesContentDescription(faces, numberOfFaces){
 	var n;
 	var persons = new StringBuffer();
-	var numberOfImage = faces.image.length;
+	var numberOfImage = faces.images.length;
 	 for(var j = 0; j < numberOfImage; j++){
      	for(var i = 0; i < numberOfFaces; i++){
      		var face = faces.images[j].faces[i];
@@ -111,57 +112,54 @@ function facesContentDescription(faces, numberOfFaces){
   /**
   *  objectdes a text image description 
   */
-	var objectdes = StringBuffer(); 
+	var objectdes = new StringBuffer(); 
   /**
   *  get number of images processed
   */
 	var numberOfImage = objects.images.length;
-             
-     for(var j=0; j<numberOfimage;j++){
-     	for(var i=0; i<numberOfobjects;i++){      	
-            		try {
-			    		objectdes.append(" \n\t -").append(objects.images[0].classifiers[0].classes[i]['class']);
-            		 } catch (err) {
-						objectdes.append(err);
-					}
-         objectdes.append("\n");
-        } 
-     }
- 	return objectdes;
+	objectdes.append("\n");
+	for(var j=0; j<numberOfImage;j++){
+		for(var i=0; i<numberOfObjects;i++){      	
+	   		try {
+	   			objectdes.append("\n \t-" + objects.images[0].classifiers[0].classes[i]['class']);
+	    	} catch (err) {
+				objectdes.append(err);
+			}
+	    objectdes.append("\n");
+	    } 
+	}
+	return objectdes;
 }
  /**
   * Function to generate image description using the two functions facesContentDescription and objectContentDescription
   * @return StringBuffer a image description
   */
 
-function imageDescription(faces, classification,cb){
- 	var imageContentDescription = StringBuffer();
+function imageDescription(classification,faces, cb){
+ 	var imageContentDescription = new StringBuffer()
  	/**
  	 *  to convert classification and faces to JsonObjects
  	 */
+ 	// faces = JSON.stringify(eval("(" + faces + ")"));
+  //  objects=JSON.stringify(eval("(" + classification + ")"));
+    var numberOfObjects=classification.images[0].classifiers[0].classes.length;
+ 	var numberOfFaces = faces.images[0].faces.length;
      
- 	 faces = JSON.stringify(eval("(" + faces + ")"));
-
-     objects=JSON.stringify(eval("(" + classification + ")"));
-     
-     var numberOfFaces = faces.images[0].faces.length;
-     
-     var numberOfObjects=objects.images[0].classifiers[0].classes.length;
      
      /**
       *  call facesContentDescription function if image contains a persons
       */
-     if(numberfaces!=0){
+     if(numberOfFaces!=0){
      	imageContentDescription.append(numberOfFaces+ " persons :");
-     	imageContentDescription.append(this.facesContentDescription(faces,numberOfFaces));
+     	imageContentDescription.append(facesContentDescription(faces,numberOfFaces));
      	imageContentDescription.append("\n");
      }
-     if(numberobjects!=0){
-     	imageContentDescription.append(numberOfObjects).append(" objects");
-     	imageContentDescription.append(this.objectContentDescription(objects,numberOfObjects));
-     }
-     
-     cb(null,imageContentDescription);
+     if(numberOfObjects!=0){
+       	imageContentDescription.append(numberOfObjects).append(" objects");
+       	imageContentDescription.append(objectContentDescription(classification,numberOfObjects));
+       }
+       
+     cb(null,imageContentDescription); 
     
  }
 
