@@ -7,29 +7,40 @@ var StringBuffer = require('stringbuffer');
 var classification = null;
 var faces = null;
 var objects = null;
-var http = require('http');
+var http = require('http'); 
+var waterfall = require('async-waterfall');
 var params = {
 		 api_key: '507d8824e898d272961f7b5f7a63ff4de056868e',
 		 url : "https://www.whitehouse.gov/sites/whitehouse.gov/files/images/first-family/44_barack_obama%5B1%5D.jpg"
 };
 
 var visual_recognition = new watson.VisualRecognitionV3({
-	 api_key: params.api_key, 
+	 api_key:  '507d8824e898d272961f7b5f7a63ff4de056868e', 
 	 version_date: '2016-05-20'
 	});
 
-function generateJsonDescription(params){
+waterfall([
+	(cb) => {cb(null,params)},
+	generateJsonDescription,
+	imageDescription], (err,res) => {
+	if (err)
+		console.log('Error: ',err)
+	else
+		console.log(res)
+});
+ 	
+
+function generateJsonDescription(params,cb){
 	visual_recognition.classify(params, (err, response) => {
 		 if (err) {
 			 console.log('error:', err);
-		 if (typeof callback !== 'undefined' && typeof callback=="function") 
-			 classification = callback(err);
-		 }
+			 if (typeof callback !== 'undefined' && typeof callback=="function") 
+				 classification = callback(err);
+			 }
 		 else {
 			 classification = JSON.stringify(response, null, 2);
-			 return classification
-		 if (typeof callback !== 'undefined' && typeof callback=="function") 
-			 return callback(response);
+			 if (typeof callback !== 'undefined' && typeof callback=="function") 
+				 return callback(response);
 		 }
 		});
 
@@ -39,13 +50,15 @@ function generateJsonDescription(params){
 			 if (typeof callback !== 'undefined' && typeof callback=="function") 
 				 return callback(err);
 		}else {
-			faces = response;
-			return faces;
+			faces = JSON.stringify(response, null, 2);
 			if (typeof callback !== 'undefined' && typeof callback=="function") 
 				return callback(response);
 		}
 	});
+	
+	cb(null,faces, classification)
 }
+
 
 function facesContentDescription(faces, numberOfFaces){
 	var n;
@@ -121,15 +134,14 @@ function facesContentDescription(faces, numberOfFaces){
   * @return StringBuffer a image description
   */
 
-function imageDescription(){
+function imageDescription(faces, classification,cb){
  	var imageContentDescription = StringBuffer();
- 	
  	/**
  	 *  to convert classification and faces to JsonObjects
  	 */
- 	
-     faces = JSON.stringify(eval("(" + faces + ")"));
      
+ 	 faces = JSON.stringify(eval("(" + faces + ")"));
+
      objects=JSON.stringify(eval("(" + classification + ")"));
      
      var numberOfFaces = faces.images[0].faces.length;
@@ -148,13 +160,11 @@ function imageDescription(){
      	imageContentDescription.append(numberOfObjects).append(" objects");
      	imageContentDescription.append(this.objectContentDescription(objects,numberOfObjects));
      }
- return imageContentDescription;
+     
+     cb(null,imageContentDescription);
+    
  }
 
-var content = generateJsonDescription(params);
-//console.log(imageDescription());
-
- 	
 // 	System.out.println("To  display percentage of confidence of these information press any key on keyboard");
 // 	Scanner sc = new Scanner(System.in);
 // 	String  w=sc.next();

@@ -12,6 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.0",
+    "async-waterfall": "^0.1.5",
     "http": "0.0.0"
-  }
+  },
+  "devDependencies": {}
 }
