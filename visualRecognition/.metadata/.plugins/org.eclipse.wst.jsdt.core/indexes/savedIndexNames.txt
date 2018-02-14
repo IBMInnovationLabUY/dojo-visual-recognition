@@ -1,0 +1,5 @@
+INDEX VERSION 1.4+C:\Users\JuanFajardo\Desktop\visualRecognition\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+929463867.index
+1546275968.index
+3346914155.index
+1890307486.index
