@@ -1,7 +1,7 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-recognition.js,org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-train.js,org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-classify.js
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-recognition.js,org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-train.js,org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-classify.js,org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-faces.js
 eclipse.preferences.version=1
 org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-classify.js/activeLaunchMode=run
 org.eclipse.launchbar.core.descriptorType.default\:visualRecognition-classify.js/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local

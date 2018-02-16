@@ -7,7 +7,7 @@ var visual_recognition = watson.visual_recognition({
 });
 var params = {
  images_file: fs.createReadStream('./public/resource/dogs.jpg'),
- classifier_ids: ['dog_1313165534']
+ classifier_ids: 'dog_1313165534'
 };
 visual_recognition.classify(params, function(err, res) {
 	console.log(res)
