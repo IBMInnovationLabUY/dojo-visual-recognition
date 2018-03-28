@@ -1,3 +1,0 @@
-INDEX VERSION 1.4+C:\Users\JuanFajardo\Desktop\repo\dojo-visual-recognition\visualRecognition\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-4034812230.index
-929463867.index

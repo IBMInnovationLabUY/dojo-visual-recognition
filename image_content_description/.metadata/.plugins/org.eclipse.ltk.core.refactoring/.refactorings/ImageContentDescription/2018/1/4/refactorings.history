@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy 4 elements(s) to &apos;visual_recognition&apos;&#x0D;&#x0A;- Original project: &apos;ImageContentDescription&apos;&#x0D;&#x0A;- Destination element: &apos;visual_recognition&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     rename_2015082929_093239.jpg&#x0D;&#x0A;     README&#x0D;&#x0A;     prez.jpg&#x0D;&#x0A;     doc" description="Copy elements" element1="rename_2015082929_093239.jpg" element2="README" element3="prez.jpg" element4="doc" files="3" flags="589830" folders="1" id="org.eclipse.wst.jsdt.ui.copy" log="prez.jpg&#x09;true&#x09;false&#x0A;README&#x09;true&#x09;false&#x0A;rename_2015082929_093239.jpg&#x09;true&#x09;false&#x0A;doc&#x09;true&#x09;false" policy="org.eclipse.wst.jsdt.ui.copyResources" stamp="1516990796497" target="/visual_recognition" units="0" version="1.0"/>
-</session>
