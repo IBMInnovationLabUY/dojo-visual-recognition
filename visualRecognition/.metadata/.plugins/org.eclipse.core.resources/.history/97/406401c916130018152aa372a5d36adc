@@ -14,4 +14,3 @@ visual_recognition.deleteClassifier({
     else
       console.log(JSON.stringify(response, null, 2))
 });
-
