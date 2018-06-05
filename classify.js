@@ -1,14 +1,19 @@
-var watson = require('watson-developer-cloud');
+var VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3');
 var fs = require('fs');
-var visual_recognition = watson.visual_recognition({
- api_key: '507d8824e898d272961f7b5f7a63ff4de056868e',
- version: 'v3',
- version_date: '2016-05-20'
-});
+var visual_recognition = new VisualRecognitionV3({
+	version: '2018-03-19',
+	iam_apikey: 'TU_APIKEY'
+  });
+var images_file= fs.createReadStream('./public/resource/dogs.jpg');
+var  classifier_ids = ['ID_CLASSIFICADOR']
+var threshold = 0.6;
+
 var params = {
- images_file: fs.createReadStream('./public/resource/dogs.jpg'),
- classifier_ids: ['dog_1313165534']
+images_file: images_file,
+classifier_ids: classifier_ids,
+threshold: threshold
 };
+
 visual_recognition.classify(params, function(err, res) {
 	console.log(res)
 	 if (err)
