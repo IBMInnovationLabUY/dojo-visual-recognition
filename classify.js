@@ -9,9 +9,10 @@ var  classifier_ids = ['ID_CLASSIFICADOR']
 var threshold = 0.6;
 
 var params = {
-images_file: images_file,
-classifier_ids: classifier_ids,
-threshold: threshold
+	images_file: images_file,
+	classifier_ids: classifier_ids,
+	threshold: threshold,
+	//url : "https://www.audi.es/dam/nemo/models/model-navigation/my-2018/a8/820x315_navigation_flyout_a8_side.jpg"
 };
 
 visual_recognition.classify(params, function(err, res) {
