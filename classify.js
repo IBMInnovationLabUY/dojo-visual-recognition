@@ -5,14 +5,14 @@ var visual_recognition = new VisualRecognitionV3({
 	iam_apikey: 'TU_APIKEY'
   });
 var images_file= fs.createReadStream('./public/resource/dogs.jpg');
-var  classifier_ids = ['ID_CLASSIFICADOR']
+var  classifier_ids = ['ID_CLASIFICADOR']
 var threshold = 0.6;
 
 var params = {
 	images_file: images_file,
 	classifier_ids: classifier_ids,
 	threshold: threshold,
-	//url : "https://www.audi.es/dam/nemo/models/model-navigation/my-2018/a8/820x315_navigation_flyout_a8_side.jpg"
+	//url : "http://www.kutya-tar.hu/kutyak1/golden-retriever/golden-retriever.jpg"
 };
 
 visual_recognition.classify(params, function(err, res) {
@@ -22,3 +22,9 @@ visual_recognition.classify(params, function(err, res) {
 	 else
 		 console.log(JSON.stringify(res, null, 2));
 });
+
+
+
+
+
+

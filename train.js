@@ -8,10 +8,10 @@ var visualRecognition = new VisualRecognitionV3({
 
 var params = {
   name: 'dogs',
-  beagle_positive_examples: fs.createReadStream('./beagle.zip'),
-  goldenretriever_positive_examples: fs.createReadStream('./golden-retriever.zip'),
-  husky_positive_examples: fs.createReadStream('./husky.zip'),
-  negative_examples: fs.createReadStream('./cats.zip')
+  beagle_positive_examples: fs.createReadStream('./public/resource/beagle.zip'),
+  goldenretriever_positive_examples: fs.createReadStream('./public/resource/golden-retriever.zip'),
+  husky_positive_examples: fs.createReadStream('./public/resource/husky.zip'),
+  negative_examples: fs.createReadStream('./public/resource/cats.zip')
 };
 
 visualRecognition.createClassifier(params,
@@ -21,3 +21,12 @@ visualRecognition.createClassifier(params,
     else
       console.log(JSON.stringify(response, null, 2))
   });
+
+
+
+
+
+
+
+
+  
