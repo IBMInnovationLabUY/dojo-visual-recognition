@@ -8,8 +8,8 @@ var visualRecognition = new VisualRecognitionV3({
 
 var params = {
   classifier_id: 'ID_CLASIFICADOR',
-  dalmatian_positive_examples: fs.createReadStream('./dalmatian.zip'),
-  negative_examples: fs.createReadStream('./more-cats.zip')
+  dalmatian_positive_examples: fs.createReadStream('./public/resource/dalmatian.zip'),
+  negative_examples: fs.createReadStream('./public/resource/more-cats.zip')
 };
 
 visualRecognition.updateClassifier(params,
@@ -19,3 +19,9 @@ visualRecognition.updateClassifier(params,
     else
       console.log(JSON.stringify(response, null, 2))
   });
+
+  
+
+
+  
+  
