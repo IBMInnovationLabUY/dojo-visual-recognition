@@ -8,7 +8,7 @@ var visualRecognition = new VisualRecognitionV3({
 
 var params = {
   classifier_id: 'ID_CLASIFICADOR',
-  dalmatian_positive_examples: fs.createReadStream('./public/resource/dalmatian.zip'),
+  dalmatian_positive_examples: fs.createReadStream('./public/resource/dalmatas.zip'),
   negative_examples: fs.createReadStream('./public/resource/more-cats.zip')
 };
 
